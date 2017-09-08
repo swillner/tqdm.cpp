@@ -305,11 +305,7 @@ public:
         start_t(steady_clock::now()), last_print_n(begin),
         last_print_t(start_t), avg_time(-1), pos(0), sp(self.f) {}
 
-  explicit Tqdm(const Tqdm &other)
-      : TQDM_IT(other.base()), b(other.b), e(other.e), total(other.total),
-        self(other.self), start_t(other.start_t),
-        last_print_n(other.last_print_n), last_print_t(other.last_print_t),
-        avg_time(other.avg_time), pos(other.pos), sp(other.sp) {}
+  explicit Tqdm(const Tqdm &other) = default;
 
   template <typename _Container,
             typename = typename std::enable_if<
@@ -320,10 +316,7 @@ public:
         last_print_n(b), last_print_t(start_t), avg_time(-1), pos(0),
         sp(self.f) {}
 
-  explicit Tqdm &operator=(const Tqdm &other) {
-    this->Tqdm(other);
-    return *this;
-  }
+  explicit Tqdm &operator=(const Tqdm &other) = default;
 
   // this is scary, non-standard
   // explicit operator bool() const { return this->base() != e; }
