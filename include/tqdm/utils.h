@@ -52,7 +52,7 @@
 #define sprintf_s sprintf
 #endif
 
-int _environ_cols(FILE *f) {
+inline int _environ_cols(FILE *f) {
 #ifdef IS_WIN
   int fn = _fileno(f);
   if (fn < 0 || fn > 2)
@@ -294,7 +294,7 @@ public:
   }
 };
 
-const char *_term_move_up() {
+inline const char *_term_move_up() {
 #if defined(IS_WIN) && !defined(colorama)
   return "";
 #else
@@ -344,7 +344,7 @@ prefixes.
     Number with Order of Magnitude SI unit postfix.
 @author Casper da Costa-Luis
 */
-std::string format_sizeof(FloatType _num, std::string suffix = "") {
+inline std::string format_sizeof(FloatType _num, std::string suffix = "") {
   double num = double(_num);
   static const char units[] = " KMGTPEZ";
   char res[80];
@@ -367,7 +367,7 @@ std::string format_sizeof(FloatType _num, std::string suffix = "") {
   return res;
 }
 
-static void wait_for_write(int fd) {
+inline void wait_for_write(int fd) {
 #ifdef IS_WIN
   struct fd_set fds;
   FD_ZERO(&fds);
@@ -384,7 +384,7 @@ static void wait_for_write(int fd) {
 // Write a buffer fully or not at all.
 // If false is returned, caller may check errno to see if it's EAGAIN
 // or a real error.
-bool write_harder(int fd, const char *buf, size_t len) {
+inline bool write_harder(int fd, const char *buf, size_t len) {
 #ifdef IS_WIN
   while (len) {
     int res = _write(fd, buf, (unsigned int)len);
@@ -515,7 +515,7 @@ public:
   Sink &operator=(Sink &&) = delete;
 };
 
-Sink standard_sink(SinkOptions(STDERR_FILENO));
+static Sink standard_sink(SinkOptions(STDERR_FILENO));
 
 // static void wait_for_write(int fd);
 
@@ -537,7 +537,8 @@ template <class Node> AtomicList<Node>::~AtomicList() {
   // Otherwise we're stuck with dangling pointers in the edges ...
 }
 
-template <class Node> void AtomicList<Node>::append(Node *node) {
+template <class Node>
+inline void AtomicList<Node>::append(Node *node) {
   (void)node;
 #if 0
   Node *singular = &meta;
